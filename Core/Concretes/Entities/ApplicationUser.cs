@@ -18,6 +18,5 @@ namespace Core.Concretes.Entities
         public virtual ICollection<Opportunity> Opportunities { get; set; } = [];
         public virtual ICollection<Activity> Activities { get; set; } = [];
         public virtual ICollection<Lead> Leads { get; set; } = [];
-
     }
 }
