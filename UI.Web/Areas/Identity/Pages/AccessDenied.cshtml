@@ -1,0 +1,16 @@
+﻿@page
+@model AccessDeniedModel
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background: #f0f2f5;">
+    <div class="card shadow-sm text-center" style="width: 100%; max-width: 400px; border: none; border-radius: 16px;">
+        <div class="card-body p-5">
+
+            <h1 class="fw-bold text-danger mb-2" style="font-size: 4rem;">403</h1>
+            <h5 class="fw-semibold mb-2">Erişim Reddedildi</h5>
+            <p class="text-muted small mb-4">Bu sayfayı görüntülemek için yeterli yetkiniz bulunmamaktadır.</p>
+
+            <a asp-page="/Index" class="btn btn-primary w-100 py-2">Ana Sayfaya Dön</a>
+
+        </div>
+    </div>
+</div>

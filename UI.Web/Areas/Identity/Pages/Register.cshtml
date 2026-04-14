@@ -1,0 +1,56 @@
+﻿@page
+@model UI.Web.Areas.Identity.Pages.RegisterModel
+
+<div class="d-flex justify-content-center align-items-center" style="min-height: 100vh; background: #f0f2f5;">
+    <div class="card shadow-sm" style="width: 100%; max-width: 400px; border: none; border-radius: 16px;">
+        <div class="card-body p-5">
+
+            <div class="text-center mb-4">
+                <h4 class="fw-semibold mb-1">Hesap Oluştur</h4>
+                <p class="text-muted mb-0" style="font-size: 0.875rem;">Bilgilerinizi girerek kayıt olun</p>
+            </div>
+
+            <form method="post">
+                @Html.AntiForgeryToken()
+                <div asp-validation-summary="ModelOnly" class="text-danger small mb-3"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.FirstName" class="form-label"></label>
+                    <input asp-for="Input.FirstName" class="form-control" />
+                    <span asp-validation-for="Input.FirstName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.LastName" class="form-label"></label>
+                    <input asp-for="Input.LastName" class="form-control" />
+                    <span asp-validation-for="Input.LastName" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Email" class="form-label"></label>
+                    <input asp-for="Input.Email" class="form-control" />
+                    <span asp-validation-for="Input.Email" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Input.Password" class="form-label"></label>
+                    <input asp-for="Input.Password" class="form-control" />
+                    <span asp-validation-for="Input.Password" class="text-danger small"></span>
+                </div>
+
+                <div class="mb-4">
+                    <label asp-for="Input.ConfirmPassword" class="form-label"></label>
+                    <input asp-for="Input.ConfirmPassword" class="form-control" />
+                    <span asp-validation-for="Input.ConfirmPassword" class="text-danger small"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary w-100 py-2">Kayıt Ol</button>
+
+                <p class="text-center text-muted mt-4 mb-0 small">
+                    Zaten hesabınız var mı? <a asp-action="Login" class="text-decoration-none">Giriş yapın</a>
+                </p>
+            </form>
+
+        </div>
+    </div>
+</div>
