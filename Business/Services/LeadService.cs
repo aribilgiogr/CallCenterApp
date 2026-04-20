@@ -50,10 +50,10 @@ namespace Business.Services
 
                 var result = ext switch
                 {
-                    ".csv" => await DataImporters.ImportCsvAsync<LeadListItemDto>(stream),
-                    ".json" => await DataImporters.ImportJsonAsync<LeadListItemDto>(stream),
-                    ".xlsx" => await DataImporters.ImportExcelAsync<LeadListItemDto>(stream),
-                    ".xls" => await DataImporters.ImportExcelAsync<LeadListItemDto>(stream),
+                    ".csv" => await DataImporters.ImportCsvAsync<LeadCreateDto>(stream),
+                    ".json" => await DataImporters.ImportJsonAsync<LeadCreateDto>(stream),
+                    ".xlsx" => await DataImporters.ImportExcelAsync<LeadCreateDto>(stream),
+                    ".xls" => await DataImporters.ImportExcelAsync<LeadCreateDto>(stream),
                     _ => null
                 };
 
