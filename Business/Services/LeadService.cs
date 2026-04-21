@@ -3,6 +3,7 @@ using Core.Abstracts;
 using Core.Abstracts.IServices;
 using Core.Concretes.DTOs;
 using Core.Concretes.Entities;
+using Core.Concretes.Enums;
 using Microsoft.AspNetCore.Http;
 using System.Security.Claims;
 using Utilities.Helpers;
@@ -12,6 +13,40 @@ namespace Business.Services
 {
     public class LeadService(IUnitOfWork unitOfWork, IMapper mapper) : ILeadService
     {
+        public async Task<Utilities.Responses.IResult> AddActivityAsync(ActivityType type, string leadId, ClaimsPrincipal user)
+        {
+            try
+            {
+                var lead = await unitOfWork.Leads.ReadByKeyAsync(leadId);
+                if (lead != null && user != null)
+                {
+                    var activity = new Activity
+                    {
+                        Subject = $"{type}: {lead.Name}",
+                        Type = type,
+                        RelatedLeadId = leadId,
+                        AssignedUserId = user.FindFirstValue(ClaimTypes.NameIdentifier),
+                        DueDate = DateTime.Now,
+                    };
+
+                    await unitOfWork.Activities.CreateAsync(activity);
+                    if (await unitOfWork.CommitAsync())
+                    {
+                        return Result.Success();
+                    }
+                    else
+                    {
+                        return Result.Fail(["Database operation failed!"]);
+                    }
+                }
+                return Result.Fail(["Lead or User not found!"]);
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail([ex.Message]);
+            }
+        }
+
         public async Task<Utilities.Responses.IResult> CreateAsync(LeadCreateDto lead)
         {
             try
@@ -73,9 +108,31 @@ namespace Business.Services
             }
         }
 
-        public Task<Utilities.Responses.IResult> PickLeadAsync(string leadId, ClaimsPrincipal user)
+        public async Task<Utilities.Responses.IResult> PickLeadAsync(string leadId, ClaimsPrincipal user)
         {
-            throw new NotImplementedException();
+            try
+            {
+                var lead = await unitOfWork.Leads.ReadByKeyAsync(leadId);
+                if (lead == null)
+                {
+                    return Result.Fail(["Lead not found!"]);
+                }
+
+                lead.AssignedUserId = user.FindFirstValue(ClaimTypes.NameIdentifier);
+                await unitOfWork.Leads.UpdateAsync(lead);
+                if (await unitOfWork.CommitAsync())
+                {
+                    return Result.Success();
+                }
+                else
+                {
+                    return Result.Fail(["Database operation failed!"]);
+                }
+            }
+            catch (Exception ex)
+            {
+                return Result.Fail([ex.Message]);
+            }
         }
     }
 }

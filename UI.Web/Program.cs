@@ -1,4 +1,8 @@
 using Business;
+using Core.Abstracts.IServices;
+using Core.Concretes.Enums;
+using System.Security.Claims;
+using Utilities.Responses;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,9 +37,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+// Basit iþlemler için tek bir sorumluluðu bulunan bir mikroservis oluþturduk.
+app.MapPost("/api/leads/pick/{id}", async (ILeadService service, ClaimsPrincipal user, string id) => await service.PickLeadAsync(id, user));
+
+app.MapPost("/api/leads/addactivity/{type}/{id}", async (ILeadService service, ClaimsPrincipal user, string id, ActivityType type) => await service.AddActivityAsync(type, id, user));
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
